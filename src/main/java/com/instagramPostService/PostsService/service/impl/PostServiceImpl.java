@@ -3,11 +3,17 @@ package com.instagramPostService.PostsService.service.impl;
 import com.instagramPostService.PostsService.entity.Comments;
 import com.instagramPostService.PostsService.entity.Likes;
 import com.instagramPostService.PostsService.entity.Posts;
+import com.instagramPostService.PostsService.entity.UserFeed;
+import com.instagramPostService.PostsService.feign.PostsToUserFeign;
 import com.instagramPostService.PostsService.repository.PostRepository;
+import com.instagramPostService.PostsService.repository.UserFeedRepository;
 import com.instagramPostService.PostsService.service.PostService;
+import com.instagramPostService.PostsService.service.UserFeedService;
+import net.bytebuddy.build.Plugin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +22,13 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    PostsToUserFeign postsToUserFeign;
+
+
+    @Autowired
+    UserFeedService userFeedService;
 
     @Override
     public List<Posts> findPostByUserId(String userId) {
@@ -69,12 +82,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public boolean addOrSave(Posts post) {
         try {
-            // Validate or perform additional checks if needed before saving
             if (post.getUserId() == null || post.getDatatype() == null) {
                 throw new IllegalArgumentException("UserId and datatype are required.");
             }
 
             Posts savedPost = postRepository.save(post);
+            List<String> userIds = postsToUserFeign.fetchFollowingList(post.getUserId()).getBody();
+            for(String userId : userIds){
+                userFeedService.addOrUpdateUserFeed(userId,savedPost.getPostId());
+            }
 
             return savedPost != null;
         } catch (IllegalArgumentException e) {
