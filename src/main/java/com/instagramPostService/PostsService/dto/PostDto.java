@@ -22,7 +22,7 @@ public class PostDto {
     String username;
     Date timestamp;
     String datatype;
-    String date;
+    String data;
     String caption;
     String category;
     List<Likes> likesOnPost = new ArrayList<>();

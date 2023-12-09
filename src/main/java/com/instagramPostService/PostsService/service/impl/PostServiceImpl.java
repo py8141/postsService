@@ -10,10 +10,10 @@ import com.instagramPostService.PostsService.repository.UserFeedRepository;
 import com.instagramPostService.PostsService.service.PostService;
 import com.instagramPostService.PostsService.service.UserFeedService;
 import net.bytebuddy.build.Plugin;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,23 +48,34 @@ public class PostServiceImpl implements PostService {
             Posts post = optionalPost.get();
             List<Likes> likesOnPost = post.getLikesOnPost();
 
-            // Check if the like is already present
-            boolean isLikePresent = likesOnPost.contains(like);
-
-            if (isLikePresent) {
-                // If like is present, remove it
-                likesOnPost.remove(like);
-            } else {
-                // If like is not present, add it
+            if(likesOnPost.isEmpty()){
                 likesOnPost.add(like);
+                }
+             else
+                 {
+                for (Likes likers : likesOnPost) {
+                    if (likers.getUserId().equals(like.getUserId())) {
+                        likesOnPost.remove(likers);
+                        System.out.println("RemoveLike");
+                        break;
+                    }
+                    else {
+                        likesOnPost.add(like);
+                        break;
+                    }
+                }
             }
-
+            post.setLikesOnPost(likesOnPost);
             postRepository.save(post);
             return true;
-        } else {
+        }
+
+        else
+            {
             throw new PostNotFoundException("Post not found with ID: " + postId);
         }
     }
+
     @Override
     public boolean addCommentOnAPost(String postId, Comments comment) {
         Optional<Posts> optionalPost = postRepository.findById(postId);
