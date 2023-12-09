@@ -42,24 +42,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public boolean addLikeInPost(String postId, Likes like) {
+    public boolean toggleLikeInPost(String postId, Likes like) {
         Optional<Posts> optionalPost = postRepository.findById(postId);
         if (optionalPost.isPresent()) {
             Posts post = optionalPost.get();
-            post.getLikesOnPost().add(like);
-            postRepository.save(post);
-            return true;
-        } else {
-            throw new PostNotFoundException("Post not found with ID: " + postId);
-        }
-    }
+            List<Likes> likesOnPost = post.getLikesOnPost();
 
-    @Override
-    public boolean removeLikeInPost(String postId, Likes like) {
-        Optional<Posts> optionalPost = postRepository.findById(postId);
-        if (optionalPost.isPresent()) {
-            Posts post = optionalPost.get();
-            post.getLikesOnPost().remove(like);
+            // Check if the like is already present
+            boolean isLikePresent = likesOnPost.contains(like);
+
+            if (isLikePresent) {
+                // If like is present, remove it
+                likesOnPost.remove(like);
+            } else {
+                // If like is not present, add it
+                likesOnPost.add(like);
+            }
+
             postRepository.save(post);
             return true;
         } else {
