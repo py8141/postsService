@@ -10,5 +10,6 @@ import java.util.List;
 public interface PostRepository extends MongoRepository<Posts,String> {
 
     List<Posts> findByUserId(String userId);
+    List<Posts> findByPostIdInOrderByTimestampDesc(List<String> postIds);
 
 }

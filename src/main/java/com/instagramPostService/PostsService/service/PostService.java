@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface PostService {
 
+    List<Posts> findByPostIdIn(List<String> postId);
     List<Posts> findPostByUserId(String userId);
     boolean toggleLikeInPost(String postId, Likes like);
     boolean addCommentOnAPost(String postId, Comments comment);

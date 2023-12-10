@@ -31,6 +31,12 @@ public class PostServiceImpl implements PostService {
     UserFeedService userFeedService;
 
     @Override
+    public List<Posts> findByPostIdIn(List<String> postId) {
+        List<Posts> posts = postRepository.findByPostIdInOrderByTimestampDesc(postId);
+        return posts;
+    }
+
+    @Override
     public List<Posts> findPostByUserId(String userId) {
         List<Posts> posts = postRepository.findByUserId(userId);
 

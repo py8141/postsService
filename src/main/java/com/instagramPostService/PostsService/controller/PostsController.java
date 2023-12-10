@@ -1,5 +1,6 @@
 package com.instagramPostService.PostsService.controller;
 
+import com.instagramPostService.PostsService.dto.ActivityDto;
 import com.instagramPostService.PostsService.dto.PostDto;
 import com.instagramPostService.PostsService.entity.Comments;
 import com.instagramPostService.PostsService.entity.Likes;
@@ -16,8 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/posts")
 public class PostsController {
+
     @Autowired
     private PostService postService;
+
 
     @GetMapping("/user/{userId}")
     public List<Posts> findPostByUserId(@PathVariable String userId) {
@@ -29,6 +32,11 @@ public class PostsController {
 
         return posts;
     }
+
+//    @GetMapping("/getActivity")
+//    public ResponseEntity<List<ActivityDto>> getActivityOfUser (@RequestParam String userId){
+//        List<Posts> posts = postService.findPostByUserId(userId);
+//    }
 
     @PutMapping("/like/{postId}")
     public ResponseEntity<String> addLikeInPost(@PathVariable String postId, @RequestBody Likes like) {
@@ -55,7 +63,6 @@ public class PostsController {
             if (isInvalid(postDto )) {
                 throw new IllegalArgumentException("UserId and datatype are required.");
             }
-
 
             boolean isPostAddedOrSaved = postService.addOrSave(convertToPosts(postDto));
 

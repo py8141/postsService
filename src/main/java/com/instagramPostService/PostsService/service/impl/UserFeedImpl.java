@@ -1,5 +1,6 @@
 package com.instagramPostService.PostsService.service.impl;
 
+import com.instagramPostService.PostsService.entity.Posts;
 import com.instagramPostService.PostsService.entity.UserFeed;
 import com.instagramPostService.PostsService.repository.UserFeedRepository;
 import com.instagramPostService.PostsService.service.UserFeedService;
@@ -29,5 +30,10 @@ public class UserFeedImpl implements UserFeedService {
             newUserFeed.getPostIds().add(postId);
             userFeedRepository.save(newUserFeed);
         }
+    }
+
+    public List<String> getListOfPostIds (String userId){
+        List<String> postId = userFeedRepository.findById(userId).get().getPostIds();
+        return  postId;
     }
 }
