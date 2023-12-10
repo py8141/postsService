@@ -30,10 +30,12 @@ public class UserFeedImpl implements UserFeedService {
             newUserFeed.getPostIds().add(postId);
             userFeedRepository.save(newUserFeed);
         }
+
     }
 
     public List<String> getListOfPostIds (String userId){
         List<String> postId = userFeedRepository.findById(userId).get().getPostIds();
+
         return  postId;
     }
 }

@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(value = "posts-to-user-feign" , url = "http://localhost:8099" , fallbackFactory =  PostToUserFeignFallback.class)
+@FeignClient(value = "posts-to-user-feign" , url = "http://localhost:8090/users" , fallbackFactory =  PostToUserFeignFallback.class)
 public interface PostsToUserFeign {
 
     @RequestMapping(method = RequestMethod.GET , value = "/getUserFollowers")
-    ResponseEntity<List<String>> fetchFollowingList(@RequestParam("userId") String userId);
+    ResponseEntity<List<String>> getUserFollowers(@RequestParam("userId") String userId);
 }
 

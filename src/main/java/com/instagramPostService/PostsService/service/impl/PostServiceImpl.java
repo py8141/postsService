@@ -103,7 +103,8 @@ public class PostServiceImpl implements PostService {
             }
 
             Posts savedPost = postRepository.save(post);
-            List<String> userIds = postsToUserFeign.fetchFollowingList(post.getUserId()).getBody();
+            List<String> userIds = postsToUserFeign.getUserFollowers(post.getUserId()).getBody();
+            System.out.println(userIds);
             for(String userId : userIds){
                 userFeedService.addOrUpdateUserFeed(userId,savedPost.getPostId());
             }

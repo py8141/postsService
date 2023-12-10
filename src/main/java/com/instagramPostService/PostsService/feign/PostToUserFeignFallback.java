@@ -15,7 +15,7 @@ public class PostToUserFeignFallback implements FallbackFactory<PostsToUserFeign
         return new PostsToUserFeign() {
 
             @Override
-            public ResponseEntity<List<String>> fetchFollowingList(String userId) {
+            public ResponseEntity<List<String>> getUserFollowers(String userId) {
                 return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NO_CONTENT);
             }
         };
