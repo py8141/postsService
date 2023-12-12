@@ -11,6 +11,7 @@ import javax.xml.crypto.Data;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class ActivityDto {
     String activity;
     Data timestamp;

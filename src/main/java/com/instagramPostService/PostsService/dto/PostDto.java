@@ -20,6 +20,7 @@ public class PostDto {
     String postId ;
     String userId;
     String username;
+    String userEmail;
     Date timestamp;
     String datatype;
     String data;

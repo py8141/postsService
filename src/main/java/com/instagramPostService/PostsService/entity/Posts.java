@@ -22,6 +22,7 @@ public class Posts {
     @Id
     String postId = UUID.randomUUID().toString();;
     String userId;
+    String userEmail;
     String username;
     Date timestamp;
     String datatype;

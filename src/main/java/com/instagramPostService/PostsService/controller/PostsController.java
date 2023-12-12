@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping("/insta/posts")
 public class PostsController {
 
     @Autowired
@@ -84,7 +85,9 @@ public class PostsController {
 
     private Posts convertToPosts(PostDto postDto) {
         Posts post = new Posts();
+        post.setPostId(postDto.getUserId());
         post.setUserId(postDto.getUserId());
+        post.setUserEmail(postDto.getUserEmail());
         post.setUsername(postDto.getUsername());
         post.setTimestamp(postDto.getTimestamp());
         post.setDatatype(postDto.getDatatype());
