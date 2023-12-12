@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface PostService {
 
+    List<Posts> findByPostIdIn(List<String> postId);
     List<Posts> findPostByUserId(String userId);
-    boolean addLikeInPost(String postId, Likes like);
-    boolean removeLikeInPost(String postId, Likes like);
+    boolean toggleLikeInPost(String postId, Likes like);
     boolean addCommentOnAPost(String postId, Comments comment);
     boolean addOrSave(Posts post);
 }
